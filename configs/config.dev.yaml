@@ -152,6 +152,19 @@ vendors: []
 #  twilio_number: ''
 #  relay_base_url: ''
 
+## we use keyword to pass dingding whitelist
+#- type: iris_dingding
+#  name: dingding
+#  base_url: ''
+
+#- type: iris_aliyun
+#  name: aliyun
+#  access_key_id: ''
+#  access_secret: ''
+#  region: ''
+#  number: ''
+#  tts_code: ''
+
 ## Hipchat support requires adding a new mode called "hipchat", in iris' mode table
 ## Also, uncomment the hipchat workers to the sender['workers_per_mode'] hash above
 ## Messages will be sent to $room_id by default, with @UserName getting a mention
