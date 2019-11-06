@@ -32,6 +32,7 @@ class iris_dingding(object):
             self.notifier = import_custom_module('iris.push', push_config['type'])(push_config)
 
     def send_dingding(self, message):
+        # TODO: message decode & encode to dingding
         start = time.time()
 
         msg = {
@@ -52,6 +53,7 @@ class iris_dingding(object):
                 self.config['base_url'],
                 data=json.dumps(msg),
                 headers=headers,
+                proxies=self.proxy,
                 timeout=self.timeout,
             )
 
