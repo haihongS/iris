@@ -5,6 +5,7 @@
 /iris-api/docker/logs
 /build
 /dist
+logs
 *swo
 .cache
 .coverage

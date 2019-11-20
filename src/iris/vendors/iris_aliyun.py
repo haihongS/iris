@@ -4,8 +4,10 @@ from aliyunsdkcore.client import AcsClient
 from aliyunsdkcore.acs_exception.exceptions import ClientException
 from aliyunsdkcore.acs_exception.exceptions import ServerException
 from aliyunsdkdyvmsapi.request.v20170525.SingleCallByTtsRequest import SingleCallByTtsRequest
+import datetime
 import logging
 import time
+import json
 
 logger = logging.getLogger(__name__)
 
@@ -50,14 +52,23 @@ class iris_aliyun(object):
         req.set_endpoint('dyvmsapi.aliyuncs.com')
 
         req.set_CalledNumber(message['destination'])
-        req.set_TtsParam('')
+
+        ts = message['incident_created'].strftime("%Y%m%d and %H%M")
+        params = {
+            'system': message['plan'],
+            'level': message['priority'],
+            'time': ts,
+        }
+        req.set_TtsParam(json.dumps(params))
 
         try:
-            resp = client.do_action_with_exception(req)
-            if resp.Code == 'OK':
+            resp0 = client.do_action_with_exception(req)
+            resp = json.loads(resp0)
+            if resp['Code'] == 'OK':
                 return time.time() - start
             else:
-                logger.warning('aliyun resp failed: (msg: %s, reqId: %s, callId: %s)', resp.Message, resp.RequestId, resp.CallId)
+                print(resp)
+                logger.warning('aliyun resp failed: (code: %s, msg: %s, reqId: %s)', resp['Code'], resp['Message'], resp['RequestId'])
         except Exception:
             logger.exception('aliyun call failed')
 
