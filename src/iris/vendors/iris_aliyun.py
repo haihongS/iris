@@ -55,8 +55,8 @@ class iris_aliyun(object):
 
         ts = message['incident_created'].strftime("%Y%m%d and %H%M")
         params = {
-            'system': message['plan'],
-            'level': message['priority'],
+            'system': message['context']['title'],
+            'level': message['context']['message'],
             'time': ts,
         }
         req.set_TtsParam(json.dumps(params))
