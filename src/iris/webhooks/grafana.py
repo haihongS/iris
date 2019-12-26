@@ -37,6 +37,9 @@ class grafana(object):
         '''
         alert_params = ujson.loads(req.context['body'])
         self.validate_post(alert_params)
+        if alert_params['state'] == 'ok':
+            resp.status = HTTP_201
+            return
 
         with db.guarded_session() as session:
             plan = req.get_param('plan', True)
